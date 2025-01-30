@@ -10,7 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.xml.transform.Source;
 import java.io.IOException;
+import java.sql.SQLOutput;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,7 +69,7 @@ public class ProductController {
                 .body(imageFile);
     }
 
-    @PutMapping("/product/update/{prodId}")
+    @PutMapping("/product/{prodId}")
     public ResponseEntity<String> updateProduct(@PathVariable int prodId,
                                                 @RequestPart Product product,
                                                 @RequestPart MultipartFile imageFile) {
@@ -93,5 +95,12 @@ public class ProductController {
         }
         else
             return new ResponseEntity<>("Product not found", HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/products/search")
+    public ResponseEntity<List<Product>> searchProducts(String keyword) {
+        System.out.println("Searching with" + keyword);
+        List<Product> products = service.searchProducts(keyword);
+        return new ResponseEntity<>(products, HttpStatus.OK);
     }
 }

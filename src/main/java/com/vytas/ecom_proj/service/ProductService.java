@@ -37,10 +37,14 @@ public class ProductService {
         product.setImageName(imageFile.getOriginalFilename());
         product.setImageType(imageFile.getContentType());
         product.setImageDate(imageFile.getBytes());
-      return repo.save(product);
+        return repo.save(product);
     }
 
     public void deleteProduct(int prodId) {
         repo.deleteById(prodId);
+    }
+
+    public List<Product> searchProducts(String keyword) {
+        return repo.searchProducts(keyword);
     }
 }
